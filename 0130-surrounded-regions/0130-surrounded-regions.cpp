@@ -31,7 +31,7 @@ public:
         void dfs(vector<vector<char>>& board,vector<vector<int>>& vis,int indr,int indc){
                int n=board.size();
                 int c=board[0].size();
-                if(indr>=n || indc>=c || indr<0 || indc<0 || board[indr][indc]=='X'|| vis[indr][indc]==1 ){
+                if(indr>=n || indc>=c || indr<0 || indc<0 || board[indr][indc]=='X'|| board[indr][indc]=='.' ){
                         return;
                 }
                
