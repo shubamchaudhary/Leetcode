@@ -1,41 +1,35 @@
 class Solution {
 public:
     int numEnclaves(vector<vector<int>>& grid) {
-        int ans=0;
-        vector<vector<bool>> vis(grid.size(),vector<bool>(grid[0].size(),false));
-        for(int i=0;i<grid.size();i++){
-            for(int j=0;j<grid[0].size();j++){
-                if(grid[i][j]==1 && vis[i][j]==false){
-                   
-                    int count=1+f(grid,i,j,vis);
-                    if(count>0){
-                        ans+=count;
-                    }
-                }
+         int r=grid.size();
+        int c=grid[0].size();
+            for(int i=0;i<r;i++){
+                    dfs(grid,i,0);
+                      dfs(grid,i,c-1);
             }
+             for(int i=0;i<c;i++){
+                    dfs(grid,0,i);
+                      dfs(grid,r-1,i);
+            }
+            int ans=0;
+            for(int i=0;i<r;i++){
+                    for(int j=0;j<c;j++){
+                            ans+=grid[i][j];
+                    }
+            }
+            return ans;
+    }
+void dfs(vector<vector<int>> &grid,int indr,int indc){
+        int r=grid.size();
+        int c=grid[0].size();
+        if(indr>=r || indr<0 || indc>=c || indc<0 || grid[indr][indc]==0){
+                return;
         }
-        return ans;
-    }
-int f(vector<vector<int>>& grid,int r,int c,vector<vector<bool>> &vis){
-    if(r<0 || c<0 || r>grid.size()-1 || c>grid[0].size()-1 || grid[r][c]==0){
-     
-        return -1;
-    }
-    if(r==0 || c==0 || r==grid.size()-1 || c==grid[0].size()-1){
-        return -9999999;
-    }
-    if(vis[r][c]==true || grid[r][c]==0){
-       return -1;
-    }
-    
-    vis[r][c]=true;
-    vector<int> row={0,0,1,-1};
-    vector<int> col={1,-1,0,0};
-    int ans=0;
-    for(int i=0;i<4;i++){
-     int t= 1+f(grid,r+row[i],c+col[i],vis);
-    ans+=t;
-    }
-    return ans;
+        grid[indr][indc]=0;
+        vector<int> v1={1,-1,0,0};
+        vector<int> v2={0,0,1,-1};
+        for(int i=0;i<4;i++){
+                dfs(grid,indr+v1[i],indc+v2[i]);
+        }
 }
 };
