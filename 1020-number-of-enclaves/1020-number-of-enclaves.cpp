@@ -1,35 +1,31 @@
 class Solution {
 public:
     int numEnclaves(vector<vector<int>>& grid) {
-         int r=grid.size();
-        int c=grid[0].size();
-            for(int i=0;i<r;i++){
-                    dfs(grid,i,0);
-                      dfs(grid,i,c-1);
-            }
-             for(int i=0;i<c;i++){
-                    dfs(grid,0,i);
-                      dfs(grid,r-1,i);
-            }
-            int ans=0;
-            for(int i=0;i<r;i++){
-                    for(int j=0;j<c;j++){
+        for(int i=0;i<grid.size();i++){
+                dfs(grid,i,0);
+                dfs(grid,i,grid[0].size()-1);
+        }
+         for(int i=0;i<grid[0].size();i++){
+                dfs(grid,0,i);
+                dfs(grid,grid.size()-1,i);
+        }
+           int ans=0;
+            for(int i=1;i<grid.size()-1;i++){
+                    for(int j=1;j<grid[0].size()-1;j++){
                             ans+=grid[i][j];
                     }
             }
             return ans;
     }
-void dfs(vector<vector<int>> &grid,int indr,int indc){
-        int r=grid.size();
-        int c=grid[0].size();
-        if(indr>=r || indr<0 || indc>=c || indc<0 || grid[indr][indc]==0){
+void dfs(vector<vector<int>>& g,int r,int c){
+        if(r>=g.size() || c>=g[0].size() || r<0 || c<0 || g[r][c]==0){
                 return;
         }
-        grid[indr][indc]=0;
-        vector<int> v1={1,-1,0,0};
-        vector<int> v2={0,0,1,-1};
+        g[r][c]=0;
+        vector<int> v1={1,0,-1,0};
+        vector<int> v2={0,1,0,-1};
         for(int i=0;i<4;i++){
-                dfs(grid,indr+v1[i],indc+v2[i]);
+                dfs(g,r+v1[i],c+v2[i]);
         }
 }
 };
